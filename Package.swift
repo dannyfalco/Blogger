@@ -1,25 +1,19 @@
-// swift-tools-version:4.0
+// swift-tools-version:3.1
 
 import PackageDescription
 
 let package = Package(
-    name: "Blogger",
-    products: [
-        .library(name: "App", targets: ["App"]),
-        .executable(name: "Run", targets: ["Run"])
-    ],
+    name: "blogger",
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "2.1.0")),
-        .package(url: "https://github.com/vapor/fluent-provider.git", .upToNextMajor(from: "1.2.0")),
+		    .Package(url: "https://github.com/vapor/vapor.git", majorVersion: 1, minor: 5),
+            .Package(url: "https://github.com/vapor/postgresql-provider", majorVersion: 1, minor: 0),
     ],
-    targets: [
-        .target(
-            name: "App",
-            dependencies: ["Vapor", "FluentProvider"],
-            exclude: ["Config", "Public", "Resources"]
-        ),
-        .target(name: "Run", dependencies: ["App"]),
-        .testTarget(name: "AppTests", dependencies: ["App", "Testing"])
+    exclude: [
+        "Config",
+        "Database",
+        "Localization",
+        "Public",
+        "Resources",
+        "Tests",
     ]
 )
-

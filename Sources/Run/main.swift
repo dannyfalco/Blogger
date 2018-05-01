@@ -1,25 +1,52 @@
-import App
+import Vapor
+import VaporPostgreSQL
 
-/// We have isolated all of our App's logic into
-/// the App module because it makes our app
-/// more testable.
-///
-/// In general, the executable portion of our App
-/// shouldn't include much more code than is presented
-/// here.
-///
-/// We simply initialize our Droplet, optionally
-/// passing in values if necessary
-/// Then, we pass it to our App's setup function
-/// this should setup all the routes and special
-/// features of our app
-///
-/// .run() runs the Droplet's commands, 
-/// if no command is given, it will default to "serve"
-let config = try Config()
-try config.setup()
+let drop = Droplet()
+drop.preparations += Blogpost.self
 
-let drop = try Droplet(config)
-try drop.setup()
 
-try drop.run()
+do {
+    try drop.addProvider(VaporPostgreSQL.Provider.self)
+} catch {
+    assertionFailure("Error adding provider: \(error)")
+}
+
+/*drop.get {
+    req in 
+    var blogpost = Blogpost(title: "Hello", body: "World")
+    try blogpost.save()
+    return try blogpost.makeJSON()
+}*/
+
+drop.get { req in
+    return try drop.view.make("new")
+}
+
+drop.post("submit") { req in
+    guard let title = req.formURLEncoded?["title"]?.string,
+        let body = req.formURLEncoded?["body"]?.string
+        else {
+            return "Missing Fields"
+        }
+    
+    var blogpost = Blogpost(title: title, body: body)
+    try blogpost.save()
+    
+    return try blogpost.makeJSON()
+}
+
+drop.get("blogposts") { req in
+    let blogposts = try Blogpost.query().all()
+    return try blogposts.makeJSON()
+}
+
+drop.get("blogposts", Int.self) { req, blogId in
+    guard let blog = try Blogpost.query().filter("id", blogId).first()
+        else {
+            return "No Blog Found"
+        }
+    
+    return try blog.makeJSON()
+}
+
+drop.run()
