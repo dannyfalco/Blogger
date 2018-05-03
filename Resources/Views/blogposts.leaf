@@ -1,0 +1,42 @@
+#extend("base")
+
+#export("head") {
+<title>My App</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style>
+    table, th, td {border: 1px solid black; border-collapse: collapse;}
+    th, td { padding: 15px;}
+
+    .alternate tr:nth-child(2n) {
+        background-color: silver;
+    }
+
+    .alternate tr:nth-child(2n):hover, .alternate tr:hover {
+        background-color: grey;
+    }
+
+    .alternate tr {
+        background-color: white;
+    }
+
+</style>
+}
+
+#export("body") {
+<h2>Blogposts</h2>
+<table style="width:80%" class="alternate">
+<tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Body</th>
+</tr>
+#loop(blogposts, "blogpost") {
+    <tr>
+        <td> #(blogpost.id) </td>
+        <td> #(blogpost.title) </td>
+        <td> #(blogpost.body) </td>
+    </tr>
+}
+</table>
+
+}

@@ -37,7 +37,9 @@ drop.post("submit") { req in
 
 drop.get("blogposts") { req in
     let blogposts = try Blogpost.query().all()
-    return try blogposts.makeJSON()
+    return try drop.view.make("blogposts", ["blogposts": blogposts.makeNode()])
+    
+    //return try blogposts.makeJSON()
 }
 
 drop.get("blogposts", Int.self) { req, blogId in
