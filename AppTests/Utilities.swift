@@ -1,12 +1,12 @@
 import Foundation
-@testable import App
+//@testable import App
 @testable import Vapor
 import XCTest
 import Testing
 import FluentProvider
 
-extension Droplet {
-    static func testable() throws -> Droplet {
+public extension Droplet {
+    public static func testable() throws -> Droplet {
         let config = try Config(arguments: ["vapor", "--env=test"])
         try config.setup()
         let drop = try Droplet(config)
@@ -21,7 +21,7 @@ extension Droplet {
     }
 }
 
-class TestCase: XCTestCase {
+public class TestCase: XCTestCase {
     override func setUp() {
         Node.fuzzy = [Row.self, JSON.self, Node.self]
         Testing.onFail = XCTFail
