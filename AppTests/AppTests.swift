@@ -1,14 +1,10 @@
-//
-//  VaporTests.swift
-//  VaporTests
-//
-//  Created by Falco, Danny (CORP) on 5/10/18.
-//
-//
-
 import XCTest
+import Foundation
+//@testable import Vapor
+//@testable import App
 
-class VaporTests: XCTestCase {
+
+class AppTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -31,5 +27,16 @@ class VaporTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    /*let droplet = try! Droplet.testable()
+    
+    func testHello() throws {
+        
+        try droplet
+            .testResponse(to: .get, at: "hello")
+            .assertStatus(is: .ok)
+            .assertJSON("hello", equals: "world")
+    }*/
+
     
 }

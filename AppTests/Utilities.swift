@@ -1,5 +1,5 @@
-import Foundation
-//@testable import App
+/*import Foundation
+@testable import App
 @testable import Vapor
 import XCTest
 import Testing
@@ -26,4 +26,4 @@ public class TestCase: XCTestCase {
         Node.fuzzy = [Row.self, JSON.self, Node.self]
         Testing.onFail = XCTFail
     }
-}
+}*/
